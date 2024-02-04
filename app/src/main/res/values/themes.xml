@@ -3,6 +3,8 @@
     <style name="Base.Theme.AndroidWhatsAppAudioRecorder" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="android:textColor">@color/colorText</item>
+        <item name="rippleColor">@color/grayDarkDisabled</item>
     </style>
 
     <style name="Theme.AndroidWhatsAppAudioRecorder" parent="Base.Theme.AndroidWhatsAppAudioRecorder" />
