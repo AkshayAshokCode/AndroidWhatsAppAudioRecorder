@@ -24,34 +24,34 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        btnStartRecording = findViewById(R.id.btnStartRecording)
-        btnStopRecording = findViewById(R.id.btnStopRecording)
-        btnPlayAudio = findViewById(R.id.btnPlayAudio)
-        btnStopAudio = findViewById(R.id.btnStopAudio)
+//        btnStartRecording = findViewById(R.id.btnStartRecording)
+//        btnStopRecording = findViewById(R.id.btnStopRecording)
+//        btnPlayAudio = findViewById(R.id.btnPlayAudio)
+//        btnStopAudio = findViewById(R.id.btnStopAudio)
 
         ActivityCompat.requestPermissions(
             this,
             arrayOf(Manifest.permission.RECORD_AUDIO),
             0
         )
-
-        btnStartRecording.setOnClickListener {
-            File(cacheDir, "audio.mp3").also {
-                recorder.start(it)
-                audioFile = it
-            }
-        }
-
-        btnStopRecording.setOnClickListener {
-            recorder.stop()
-        }
-
-        btnPlayAudio.setOnClickListener {
-            player.playFile(audioFile ?: return@setOnClickListener)
-        }
-
-        btnStopAudio.setOnClickListener {
-            player.stop()
-        }
+//
+//        btnStartRecording.setOnClickListener {
+//            File(cacheDir, "audio.mp3").also {
+//                recorder.start(it)
+//                audioFile = it
+//            }
+//        }
+//
+//        btnStopRecording.setOnClickListener {
+//            recorder.stop()
+//        }
+//
+//        btnPlayAudio.setOnClickListener {
+//            player.playFile(audioFile ?: return@setOnClickListener)
+//        }
+//
+//        btnStopAudio.setOnClickListener {
+//            player.stop()
+//        }
     }
 }
