@@ -3,8 +3,10 @@ package com.akshayashokcode.androidwhatsappaudiorecorder.record
 import java.io.File
 
 interface AudioRecorder {
-    fun start(outputFile: File)
+    fun start(dirPath: String)
     fun stop()
 
-    //TODO: Add resume & pause methods
+    fun pause()
+
+    fun resume()
 }
