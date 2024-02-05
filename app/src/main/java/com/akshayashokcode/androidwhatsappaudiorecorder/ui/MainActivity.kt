@@ -24,6 +24,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var btnPlayAudio: Button
     private lateinit var btnStopAudio: Button
 
+    private var isRecording = false
+    private var isPaused = false
+
     private var permissions = arrayOf(Manifest.permission.RECORD_AUDIO)
     private var permissionGranted = false
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,7 +51,11 @@ class MainActivity : AppCompatActivity() {
         }
 
         btnRecord.setOnClickListener {
-            startRecording()
+            when{
+                isPaused -> resumeRecorder()
+                isRecording -> pauseRecorder()
+                else -> startRecording()
+            }
         }
 
 
@@ -93,5 +100,22 @@ class MainActivity : AppCompatActivity() {
             )
             return
         }
+        recorder.start(externalCacheDir?.absolutePath +"/")
+
+        btnRecord.setImageResource(R.drawable.ic_pause)
+        isRecording = true
+        isPaused = false
+    }
+
+    private fun pauseRecorder(){
+        recorder.pause()
+        isPaused = true
+        btnRecord.setImageResource(R.drawable.ic_record)
+    }
+
+    private fun resumeRecorder(){
+        recorder.resume()
+        isPaused = true
+        btnRecord.setImageResource(R.drawable.ic_pause)
     }
 }
