@@ -58,4 +58,11 @@ class AndroidAudioRecorder(private val context: Context) : AudioRecorder {
        recorder?.resume()
     }
 
+    override fun getAmplitude(): Float {
+        recorder?.maxAmplitude?.let {
+            return it.toFloat()
+        }
+        return 0f
+    }
+
 }

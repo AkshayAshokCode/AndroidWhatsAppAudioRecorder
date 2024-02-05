@@ -32,6 +32,7 @@ class MainActivity : AppCompatActivity(), OnTimerTickListener {
     private lateinit var btnPlayAudio: Button
     private lateinit var btnStopAudio: Button
     private lateinit var tvTimer: TextView
+    private lateinit var waveformView: WaveformView
 
     private lateinit var timer: Timer
 
@@ -46,6 +47,8 @@ class MainActivity : AppCompatActivity(), OnTimerTickListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         btnRecord = findViewById(R.id.btnRecord)
+        waveformView = findViewById(R.id.waveformView)
+        tvTimer = findViewById(R.id.tvTimer)
 //        btnStopRecording = findViewById(R.id.btnStopRecording)
 //        btnPlayAudio = findViewById(R.id.btnPlayAudio)
 //        btnStopAudio = findViewById(R.id.btnStopAudio)
@@ -156,5 +159,6 @@ class MainActivity : AppCompatActivity(), OnTimerTickListener {
 
     override fun onTimerTick(duration: String) {
         tvTimer.text = duration
+        waveformView.addAmplitude(recorder.getAmplitude())
     }
 }
