@@ -24,10 +24,11 @@ const val REQUEST_CODE = 200
 class MainActivity : AppCompatActivity(), OnTimerTickListener {
 
     private var recorder = AndroidAudioRecorder(this)
-    private var player = AndroidAudioPlayer(this)
-    private var audioFile: File? = null
+  //  private var player = AndroidAudioPlayer(this)
+  //  private var audioFile: File? = null
 
     private lateinit var btnRecord: ImageButton
+    private lateinit var btnDelete: ImageButton
     private lateinit var btnStopRecording: Button
     private lateinit var btnPlayAudio: Button
     private lateinit var btnStopAudio: Button
@@ -39,6 +40,8 @@ class MainActivity : AppCompatActivity(), OnTimerTickListener {
     private var isRecording = false
     private var isPaused = false
 
+    private lateinit var amplitudes: ArrayList<Float>
+
     private lateinit var vibrator: Vibrator
 
     private var permissions = arrayOf(Manifest.permission.RECORD_AUDIO)
@@ -47,6 +50,7 @@ class MainActivity : AppCompatActivity(), OnTimerTickListener {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         btnRecord = findViewById(R.id.btnRecord)
+        btnDelete = findViewById(R.id.btnDelete)
         waveformView = findViewById(R.id.waveformView)
         tvTimer = findViewById(R.id.tvTimer)
 //        btnStopRecording = findViewById(R.id.btnStopRecording)
@@ -88,6 +92,10 @@ class MainActivity : AppCompatActivity(), OnTimerTickListener {
             }
         }
 
+        btnDelete.setOnClickListener {
+            stopRecorder()
+            recorder.delete()
+        }
 
 //
 //        btnStartRecording.setOnClickListener {
@@ -155,6 +163,12 @@ class MainActivity : AppCompatActivity(), OnTimerTickListener {
 
     private fun stopRecorder(){
         timer.stop()
+        recorder.release()
+        isPaused = false
+        isRecording = false
+
+        tvTimer.text = "00:00"
+        amplitudes = waveformView.clear()
     }
 
     override fun onTimerTick(duration: String) {
