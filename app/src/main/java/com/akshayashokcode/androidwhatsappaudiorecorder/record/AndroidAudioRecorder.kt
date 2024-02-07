@@ -12,6 +12,7 @@ import java.util.Date
 class AndroidAudioRecorder(private val context: Context) : AudioRecorder {
     private var recorder: MediaRecorder? = null
     private var fileName = ""
+    private var mDirPath = ""
 
     private fun createRecorder(): MediaRecorder {
         return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
@@ -23,6 +24,7 @@ class AndroidAudioRecorder(private val context: Context) : AudioRecorder {
 
         var simpleDateFormat = SimpleDateFormat("yyyy.MM.DD_hh.mm.ss")
         var date = simpleDateFormat.format(Date())
+        mDirPath = dirPath
         fileName = "audio_record_${date}"
 
 
@@ -56,6 +58,21 @@ class AndroidAudioRecorder(private val context: Context) : AudioRecorder {
 
     override fun resume() {
        recorder?.resume()
+    }
+
+    override fun delete() {
+       File("$mDirPath$fileName.mp3").exists().let {
+           if(it){
+               File("$mDirPath$fileName.mp3").delete()
+           }
+       }
+    }
+
+    override fun release() {
+        recorder?.apply {
+            stop()
+            release()
+        }
     }
 
     override fun getAmplitude(): Float {

@@ -10,5 +10,9 @@ interface AudioRecorder {
 
     fun resume()
 
+    fun delete()
+
+    fun release()
+
     fun getAmplitude(): Float
 }
