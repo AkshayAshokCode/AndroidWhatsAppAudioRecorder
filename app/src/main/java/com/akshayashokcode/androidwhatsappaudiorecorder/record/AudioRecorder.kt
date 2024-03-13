@@ -3,7 +3,7 @@ package com.akshayashokcode.androidwhatsappaudiorecorder.record
 import java.io.File
 
 interface AudioRecorder {
-    fun start(dirPath: String)
+    fun start(dirPath: File)
     fun stop()
 
     fun pause()
@@ -15,4 +15,8 @@ interface AudioRecorder {
     fun release()
 
     fun getAmplitude(): Float
+
+    fun getAudioFile(): File?
+
+    fun getFileName(): String
 }
