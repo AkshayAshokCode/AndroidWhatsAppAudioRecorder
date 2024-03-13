@@ -1,48 +1,52 @@
 package com.akshayashokcode.androidwhatsappaudiorecorder.timer
 
-import android.os.Handler
-import android.os.Looper
+import android.util.Log
+import java.util.Timer
+import java.util.TimerTask
 
-class Timer(listener: OnTimerTickListener) {
-    private var handler = Handler(Looper.getMainLooper())
-    private lateinit var runnable: Runnable
+class Timer(private val listener: OnTimerTickListener) {
 
-    private var duration = 0L
+    var duration = 0L
     private var delay = 100L
-
-    init {
-        runnable = Runnable {
-            duration += delay
-            handler.postDelayed(runnable, delay)
-            listener.onTimerTick(format(duration))
-        }
-    }
-
+    private var timer: Timer? = null
     fun start() {
-        handler.postDelayed(runnable, delay)
+        timer = Timer()
+        timer!!.scheduleAtFixedRate(object : TimerTask() {
+            override fun run() {
+                duration += delay
+                listener.onTimerTick(format(duration))
+            }
+        }, 0, 100)
+
+        Log.d("AudioRecorder", "duration: $duration")
     }
 
     fun pause() {
-        handler.removeCallbacks(runnable)
+        if (timer != null) {
+            timer!!.cancel()
+            timer!!.purge()
+            timer = null
+        }
     }
 
     fun stop() {
-        handler.removeCallbacks(runnable)
+        if (timer != null) {
+            timer!!.cancel()
+            timer!!.purge()
+            timer = null
+        }
         duration = 0L
     }
 
-    private fun format(duration: Long): String {
-      //  val millis = duration % 1000
+    fun format(duration: Long): String {
         val seconds = (duration / 1000) % 60
         val minutes = (duration / (1000 * 60)) % 60
         val hours = (duration / (1000 * 60 * 60))
 
-        var formatted = if(hours > 0) {
+        return if (hours > 0) {
             "%02d:%02d:%02d".format(hours, minutes, seconds)
-        }else{
+        } else {
             "%02d:%02d".format(minutes, seconds)
         }
-
-        return formatted
     }
 }
